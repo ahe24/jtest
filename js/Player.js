@@ -141,7 +141,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
             weapon.fireRate *= 1.05;
             weapon.reloadTime *= 0.95;
-            weapon.reloadTime = Math.max(weapon.reloadTime, 500);
+            weapon.reloadTime = Math.max(200, weapon.reloadTime); // Adjusted to 200ms minimum
             weapon.fireRate = Math.min(weapon.fireRate, weapon.baseFireRate * 2.5);
 
         // this.scene.sound.play('upgrade_sound'); // Optional: Add an upgrade sound
