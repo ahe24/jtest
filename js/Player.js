@@ -3,8 +3,8 @@ import Bullet from './Bullet.js';
 export default class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
+        // scene.add.existing(this); // Removed redundant call
+        // scene.physics.add.existing(this); // Removed redundant call
         this.setCollideWorldBounds(true);
 
         this.score = 0;
