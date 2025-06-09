@@ -38,8 +38,34 @@ export default class MainScene extends Phaser.Scene {
         this.loadingText.setOrigin(0.5, 0.5);
         this.time.delayedCall(1000, () => { this.loadingText.setVisible(false); });
 
-        this.player = new Player(this, this.cameras.main.width / 2, this.cameras.main.height / 2, 'player_sprite'); // Use new key
-        this.player.setActive(true); // Ensure player starts active
+        // this.player = new Player(this, this.cameras.main.width / 2, this.cameras.main.height / 2, 'player_sprite'); // Commented out
+        // this.player.setActive(true); // Ensure player starts active
+
+        console.log("Attempting to create a minimal physics sprite directly in MainScene...");
+        const simpleSprite = this.physics.add.sprite(100, 100, 'player_sprite');
+        console.log("Minimal 'simpleSprite' object:", simpleSprite);
+        console.log("Minimal 'simpleSprite.body':", simpleSprite.body);
+
+        if (simpleSprite.body) {
+            simpleSprite.setCollideWorldBounds(true);
+            console.log("Minimal 'simpleSprite' successfully set CollideWorldBounds.");
+        } else {
+            console.error("Minimal 'simpleSprite.body' is NULL or undefined! Cannot set CollideWorldBounds.");
+        }
+
+        // Assign to this.player and add quick hacks to prevent widespread errors (TEMPORARY MEASURE)
+        this.player = simpleSprite;
+        this.player.setActive(true); // Ensure player starts active, similar to original
+        if(!this.player.bullets) { this.player.bullets = this.physics.add.group(); }
+        if(!this.player.getCurrentWeapon) { this.player.getCurrentWeapon = () => ({ name: 'Test', ammo: 0, maxAmmo: 0, isReloading: false, bulletTexture: 'bullet_sprite', bulletSpeed: 0, bulletDamage: 0 }); }
+        if(!this.player.takeDamage) { this.player.takeDamage = (amount) => { console.log('SimpleSprite takeDamage called with: ' + amount); if(this.player.scene && this.player.scene.updateHealthUI) this.player.scene.updateHealthUI(0); }; } // Added UI update for health
+        if(!this.player.switchWeapon) { this.player.switchWeapon = () => {}; }
+        if(!this.player.upgradeCurrentWeapon) { this.player.upgradeCurrentWeapon = () => {}; }
+        if(!this.player.resetPlayerState) { this.player.resetPlayerState = () => { if(this.player) { this.player.health = 100; this.player.score = 0; if(this.player.scene && this.player.scene.updateHealthUI) this.player.scene.updateHealthUI(100);} }; } // Added UI update
+        if(!this.player.playerName) { this.player.playerName = "TestSimple"; }
+        if(this.player.health === undefined) { this.player.health = 100; }
+        if(this.player.score === undefined) { this.player.score = 0; }
+
 
         // Zombie group
         this.zombies = this.physics.add.group({
