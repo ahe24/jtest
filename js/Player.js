@@ -4,8 +4,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.add.existing(this); // Add to display list
-        scene.physics.add.existing(this); // Add to physics system, creates this.body
-        this.setCollideWorldBounds(true); // Now this.body exists
+        scene.physics.world.enable(this); // Enable physics body using world.enable
+        this.setCollideWorldBounds(true); // Now this.body should exist
 
         this.score = 0;
         this.health = 100;
