@@ -2,9 +2,14 @@ import Bullet from './Bullet.js';
 
 export default class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
+        console.log("Player Constructor - Scene Physics:", scene.physics);
+        console.log("Player Constructor - Scene Physics World:", scene.physics.world);
+
         super(scene, x, y, texture);
         scene.add.existing(this); // Add to display list
         scene.physics.world.enable(this); // Enable physics body using world.enable
+
+        console.log("Player body before setCollideWorldBounds:", this.body); // New log
         this.setCollideWorldBounds(true); // Now this.body should exist
 
         this.score = 0;
