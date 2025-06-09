@@ -7,9 +7,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         super(scene, x, y, texture);
         scene.add.existing(this); // Add to display list
-        scene.physics.world.enable(this); // Enable physics body using world.enable
+        scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY); // Changed line
 
-        console.log("Player body before setCollideWorldBounds:", this.body); // New log
+        console.log("Player body after enableBody:", this.body, "Type:", typeof this.body); // Updated log
         this.setCollideWorldBounds(true); // Now this.body should exist
 
         this.score = 0;
