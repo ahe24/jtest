@@ -1,16 +1,15 @@
 import Bullet from './Bullet.js';
 
-export default class Player extends Phaser.GameObjects.Sprite {
+// Changed to extend Phaser.Physics.Arcade.Sprite
+export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
-        console.log("Player Constructor - Scene Physics:", scene.physics);
-        console.log("Player Constructor - Scene Physics World:", scene.physics.world);
+        // Debugging logs removed
+        super(scene, x, y, texture); // Handles adding to scene and physics
 
-        super(scene, x, y, texture);
-        scene.add.existing(this); // Add to display list
-        scene.physics.world.enableBody(this, Phaser.Physics.Arcade.DYNAMIC_BODY); // Changed line
+        // Manual add.existing and physics.world.enableBody removed
+        // Debugging log for this.body removed
 
-        console.log("Player body after enableBody:", this.body, "Type:", typeof this.body); // Updated log
-        this.setCollideWorldBounds(true); // Now this.body should exist
+        this.setCollideWorldBounds(true); // this.body is created by super()
 
         this.score = 0;
         this.health = 100;
