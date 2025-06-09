@@ -3,13 +3,9 @@ import Bullet from './Bullet.js';
 // Changed to extend Phaser.Physics.Arcade.Sprite
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
-        // Debugging logs removed
         super(scene, x, y, texture); // Handles adding to scene and physics
-
-        // Manual add.existing and physics.world.enableBody removed
-        // Debugging log for this.body removed
-
-        this.setCollideWorldBounds(true); // this.body is created by super()
+        console.log("Player body AFTER super():", this.body, "Type:", typeof this.body); // New focused log
+        this.setCollideWorldBounds(true); // Line that causes error
 
         this.score = 0;
         this.health = 100;
